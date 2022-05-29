@@ -1,0 +1,20 @@
+.PostDetail {
+  .container {
+    background: #fff;
+  }
+}
+
+.flex-scope {
+  margin-right: 20px;
+  margin-bottom: 10px;
+
+  display: flex;
+  align-items: center;
+  p {
+    margin: 0;
+  }
+  span {
+    margin-right: 5px;
+    cursor: pointer;
+  }
+}
