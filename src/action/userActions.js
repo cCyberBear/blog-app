@@ -7,7 +7,7 @@ const register = (data, navigate) => async (dispatch) => {
   try {
     dispatch(setLoading(SET_LOADING, true));
     const res = await axios.post(
-      "https://steaming-server-app.herokuapp.com/kd/api/v1/user/register",
+      "https://blogg-post-app.herokuapp.com/kd/api/v0/auth/register",
       data
     );
     setAuthToken(res.data.token);
@@ -26,7 +26,7 @@ const login = (data) => async (dispatch) => {
   try {
     dispatch(setLoading(SET_LOADING, true));
     const res = await axios.post(
-      "https://steaming-server-app.herokuapp.com/kd/api/v1/user/login",
+      "https://blogg-post-app.herokuapp.com/kd/api/v0/auth/login",
       data
     );
     setAuthToken(res.data.token);
@@ -46,7 +46,7 @@ const getCurrentUser = (token, navigate) => async (dispatch) => {
     dispatch({ type: AUTHING, payload: true });
     setAuthToken(token);
     const res = await axios.get(
-      "https://steaming-server-app.herokuapp.com/kd/api/v1/user/me"
+      "https://blogg-post-app.herokuapp.com/kd/api/v0/auth/me"
     );
     dispatch({ type: SET_CURRENT_USER, payload: res.data.user });
   } catch (error) {

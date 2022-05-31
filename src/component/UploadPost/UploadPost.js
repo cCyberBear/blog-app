@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import "./UploadPost.scss";
 import Header from "../Header/Header";
 import ImgCrop from "antd-img-crop";
+import { useDispatch, useSelector } from "react-redux";
+import { post } from "../../action/postAction";
 
 const UploadPost = () => {
   const [selectedFileList, setSelectedFileList] = useState([]);
-
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.postReducer.loading);
   const handleUpload = (newFileList) => {
     setSelectedFileList(newFileList.fileList);
   };
@@ -33,9 +36,8 @@ const UploadPost = () => {
     const data = {
       ...values,
       image: selectedFileList.map((val) => val.originFileObj),
-      // subCategory: JSON.stringify(values.subCategory),
     };
-    console.log(data);
+    dispatch(post(data));
   };
   const layout = {
     labelCol: { span: 24 },
@@ -47,42 +49,55 @@ const UploadPost = () => {
   return (
     <div className="UploadPost">
       <Header />
-      <div className="container">
-        <Card style={{ width: "100%", marginTop: "100px" }}>
-          <h1>POST</h1>
-          <Form
-            {...layout}
-            validateMessages={validateMessages}
-            onFinish={onFinish}>
-            <Form.Item name="image" label="Image">
-              <ImgCrop rotate>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div className="container">
+          <Card style={{ width: "100%", marginTop: "100px" }}>
+            <h1>POST</h1>
+            <Form
+              {...layout}
+              validateMessages={validateMessages}
+              onFinish={onFinish}
+            >
+              <Form.Item name="image" label="Image">
                 <Upload
                   fileList={selectedFileList}
                   listType="picture-card"
                   onChange={handleUpload}
                   customRequest={dummyRequest}
-                  onPreview={onPreview}>
+                  onPreview={onPreview}
+                >
                   {"+ Upload"}
                 </Upload>
-              </ImgCrop>
-            </Form.Item>
-            <Form.Item
-              name="description"
-              label="Description"
-              rules={[{ required: true }]}>
-              <Input.TextArea rows={5} />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                style={{ width: "100%" }}
-                type="primary"
-                htmlType="submit">
-                Post
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </div>
+              </Form.Item>
+              <Form.Item
+                name="title"
+                label="Title"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="description"
+                label="Description"
+                rules={[{ required: true }]}
+              >
+                <Input.TextArea rows={5} />
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  style={{ width: "100%" }}
+                  type="primary"
+                  htmlType="submit"
+                >
+                  Post
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };

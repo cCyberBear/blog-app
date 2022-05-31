@@ -11,33 +11,27 @@ import {
 } from "@ant-design/icons";
 import PostDetail from "../PostDetail/PostDetail";
 import { useNavigate } from "react-router-dom";
+import AvatarByName from "../AvatarByName/AvatarByName";
 
 const { Meta } = Card;
-const Apost = () => {
+const Apost = ({ value }) => {
   const navigate = useNavigate();
   return (
     <div className="Apost">
       <Card
         style={{ width: "100%" }}
         cover={
-          <Carousel>
-            <img
-              alt="example"
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            />
-            <img
-              alt="example"
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            />
-            <img
-              alt="example"
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            />
-            <img
-              alt="example"
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            />
-          </Carousel>
+          value.image.length ? (
+            <Carousel>
+              {value.image.map((val) => (
+                <div className="img">
+                  <img key={val} src={val} alt="postImage" />
+                </div>
+              ))}
+            </Carousel>
+          ) : (
+            ""
+          )
         }
         actions={[
           <div className="like">
@@ -52,24 +46,12 @@ const Apost = () => {
             key="view all"
             onClick={() => navigate("/post/:id")}
           />,
-        ]}>
+        ]}
+      >
         <Meta
-          avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-          title="Author name"
-          description={
-            <div className="content">
-              <strong> Duy </strong> Ipsum is simply dummy text of the printing
-              and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer
-              took a galley of type and scrambled it to make a type specimen
-              book. It has survived not only five centuries, but also the leap
-              into electronic typesetting, remaining essentially unchanged. It
-              was popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </div>
-          }
+          avatar={<AvatarByName name={value.author.username} />}
+          title={value.author.username}
+          description={<div className="content">{value.description}</div>}
         />
       </Card>
     </div>

@@ -8,10 +8,17 @@ import UploadPost from "./component/UploadPost/UploadPost";
 import PrivateRoute from "./component/PrivateRoute/PrivateRoute";
 
 import { Route, Routes } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser } from "./action/userActions";
+import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.userReducer.currentUser);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    dispatch(getCurrentUser(token));
+  }, []);
   return (
     <div className="App">
       <Routes>
@@ -24,14 +31,16 @@ function App() {
             <PrivateRoute>
               <UploadPost />
             </PrivateRoute>
-          }></Route>
+          }
+        ></Route>
         <Route
           path="/post/:id"
           element={
             <PrivateRoute>
               <PostDetail />
             </PrivateRoute>
-          }></Route>
+          }
+        ></Route>
       </Routes>
     </div>
   );
