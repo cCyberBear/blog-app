@@ -62,72 +62,71 @@ const PostDetail = ({}) => {
   };
 
   return (
-    <>
+    <div className="PostDetail">
       <Header />
-      <div className="PostDetail">
-        <div className="container">
-          <Card
-            cover={
-              <Carousel>
-                <div>
-                  <h3 style={contentStyle}>1</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>2</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>3</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>4</h3>
-                </div>
-              </Carousel>
-            }>
-            <div className="comment">
-              <div className="flex-scope">
-                <div className="flex-scope">
-                  <LikeOutlined key="like" />
-                  <p>{20}</p>
-                </div>
-                <div className="flex-scope">
-                  <CommentOutlined key="comment" />
-                  <p>{20}</p>
-                </div>
+      <div className="container">
+        <Card
+          style={{ width: "100%", marginTop: "100px" }}
+          cover={
+            <Carousel>
+              <div>
+                <h3 style={contentStyle}>1</h3>
               </div>
-              <Meta
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title="Card title"
-                description={
-                  <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Laboriosam, natus, saepe ad atque, reprehenderit hic libero
-                    beatae tempora dolorum impedit illum! Vel, tempora vero?
-                    Doloribus vero accusantium quibusdam harum cumque?
-                  </p>
-                }
-              />
-              {comments.length > 0 && <CommentList comments={comments} />}
-              <Comment
-                avatar={
-                  <Avatar
-                    src="https://joeschmoe.io/api/v1/random"
-                    alt="Han Solo"
-                  />
-                }
-                content={
-                  <Editor
-                    onChange={handleChange}
-                    onSubmit={handleSubmit}
-                    submitting={submitting}
-                    value={value}
-                  />
-                }
-              />
+              <div>
+                <h3 style={contentStyle}>2</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>3</h3>
+              </div>
+              <div>
+                <h3 style={contentStyle}>4</h3>
+              </div>
+            </Carousel>
+          }>
+          <div className="comment">
+            <div className="flex-scope">
+              <div className="flex-scope">
+                <LikeOutlined key="like" />
+                <p>{20}</p>
+              </div>
+              <div className="flex-scope">
+                <CommentOutlined key="comment" />
+                <p>{20}</p>
+              </div>
             </div>
-          </Card>
-        </div>
+            <Meta
+              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+              title="Card title"
+              description={
+                <p>
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Laboriosam, natus, saepe ad atque, reprehenderit hic libero
+                  beatae tempora dolorum impedit illum! Vel, tempora vero?
+                  Doloribus vero accusantium quibusdam harum cumque?
+                </p>
+              }
+            />
+            {comments.length > 0 && <CommentList comments={comments} />}
+            <Comment
+              avatar={
+                <Avatar
+                  src="https://joeschmoe.io/api/v1/random"
+                  alt="Han Solo"
+                />
+              }
+              content={
+                <Editor
+                  onChange={handleChange}
+                  onSubmit={handleSubmit}
+                  submitting={submitting}
+                  value={value}
+                />
+              }
+            />
+          </div>
+        </Card>
       </div>
-    </>
+    </div>
   );
 };
 

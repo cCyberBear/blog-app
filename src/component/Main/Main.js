@@ -9,7 +9,7 @@ const Main = () => {
       <Header />
       <div className="container">
         <Allpost />
-        <Affix offsetTop={20} style={{ width: "30%" }}>
+        <Affix offsetTop={80} style={{ width: "30%" }}>
           <Card
             title="Newest"
             bordered={false}

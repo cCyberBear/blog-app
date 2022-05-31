@@ -1,10 +1,17 @@
 import { Button, Card, Form, Input } from "antd";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../action/userActions";
 import "./Login.scss";
 
 const Login = () => {
+  const loading = useSelector((state) => state.userReducer.loading);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const onFinish = (values) => {
-    console.log("Success:", values);
+    dispatch(login(values));
   };
 
   return (
@@ -13,7 +20,6 @@ const Login = () => {
         title="LOGIN"
         bordered={false}
         style={{ width: 350, display: "block" }}>
-        <h1>LOGO</h1>
         <Form
           name="basic"
           labelCol={{ span: 24 }}
@@ -43,10 +49,18 @@ const Login = () => {
           </Form.Item>
 
           <Form.Item wrapperCol={{ span: 24 }}>
-            <Button type="primary" style={{ width: "100%" }} htmlType="submit">
-              Submit
+            <Button
+              loading={loading}
+              type="primary"
+              style={{ width: "100%" }}
+              htmlType="submit">
+              LOGIN
             </Button>
           </Form.Item>
+          <div className="create">
+            <span className="font-medium">Don't have an account?</span>
+            <p onClick={() => navigate("/register")}>Create an account</p>
+          </div>
         </Form>
       </Card>
     </div>

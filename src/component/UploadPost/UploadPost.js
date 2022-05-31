@@ -45,47 +45,45 @@ const UploadPost = () => {
     required: "${label} is required!",
   };
   return (
-    <>
+    <div className="UploadPost">
       <Header />
-      <div className="UploadPost">
-        <div className="container">
-          <Card>
-            <h1>POST</h1>
-            <Form
-              {...layout}
-              validateMessages={validateMessages}
-              onFinish={onFinish}>
-              <Form.Item name="image" label="Image">
-                <ImgCrop rotate>
-                  <Upload
-                    fileList={selectedFileList}
-                    listType="picture-card"
-                    onChange={handleUpload}
-                    customRequest={dummyRequest}
-                    onPreview={onPreview}>
-                    {"+ Upload"}
-                  </Upload>
-                </ImgCrop>
-              </Form.Item>
-              <Form.Item
-                name="description"
-                label="Description"
-                rules={[{ required: true }]}>
-                <Input.TextArea rows={5} />
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  style={{ width: "100%" }}
-                  type="primary"
-                  htmlType="submit">
-                  Post
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </div>
+      <div className="container">
+        <Card style={{ width: "100%", marginTop: "100px" }}>
+          <h1>POST</h1>
+          <Form
+            {...layout}
+            validateMessages={validateMessages}
+            onFinish={onFinish}>
+            <Form.Item name="image" label="Image">
+              <ImgCrop rotate>
+                <Upload
+                  fileList={selectedFileList}
+                  listType="picture-card"
+                  onChange={handleUpload}
+                  customRequest={dummyRequest}
+                  onPreview={onPreview}>
+                  {"+ Upload"}
+                </Upload>
+              </ImgCrop>
+            </Form.Item>
+            <Form.Item
+              name="description"
+              label="Description"
+              rules={[{ required: true }]}>
+              <Input.TextArea rows={5} />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                style={{ width: "100%" }}
+                type="primary"
+                htmlType="submit">
+                Post
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
       </div>
-    </>
+    </div>
   );
 };
 

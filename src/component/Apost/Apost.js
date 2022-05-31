@@ -10,9 +10,11 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import PostDetail from "../PostDetail/PostDetail";
+import { useNavigate } from "react-router-dom";
 
 const { Meta } = Card;
 const Apost = () => {
+  const navigate = useNavigate();
   return (
     <div className="Apost">
       <Card
@@ -46,7 +48,10 @@ const Apost = () => {
             <CommentOutlined key="comment" />
             <p>{20}</p>
           </div>,
-          <FullscreenOutlined key="view all" />,
+          <FullscreenOutlined
+            key="view all"
+            onClick={() => navigate("/post/:id")}
+          />,
         ]}>
         <Meta
           avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}

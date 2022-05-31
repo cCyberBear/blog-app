@@ -1,9 +1,15 @@
 import { Button, Card, Form, Input } from "antd";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { register } from "../../action/userActions";
 import "./Register.scss";
 const Register = () => {
+  const loading = useSelector((state) => state.userReducer.loading);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onFinish = (values) => {
-    console.log(values);
+    dispatch(register(values, navigate));
   };
   return (
     <div className="Register">
@@ -11,7 +17,6 @@ const Register = () => {
         title="REGISTER"
         bordered={false}
         style={{ width: 350, display: "block" }}>
-        <h1>LOGO</h1>
         <Form
           name="basic"
           labelCol={{ span: 24 }}
@@ -52,10 +57,18 @@ const Register = () => {
           </Form.Item>
 
           <Form.Item wrapperCol={{ span: 24 }}>
-            <Button type="primary" style={{ width: "100%" }} htmlType="submit">
-              Submit
+            <Button
+              loading={loading}
+              type="primary"
+              style={{ width: "100%" }}
+              htmlType="submit">
+              REGISTER
             </Button>
           </Form.Item>
+          <div className="create">
+            <span className="font-medium">Already have an account?</span>
+            <p onClick={() => navigate("/")}>Login here</p>
+          </div>
         </Form>
       </Card>
     </div>

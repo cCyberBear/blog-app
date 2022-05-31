@@ -8,4 +8,15 @@
     width: fit-content;
     margin: 0 auto;
   }
+  .create {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p {
+      margin: 10px;
+      color: #039be5;
+      cursor: pointer;
+    }
+  }
 }
