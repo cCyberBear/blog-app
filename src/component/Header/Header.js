@@ -1,4 +1,10 @@
-import { MenuOutlined } from "@ant-design/icons";
+import {
+  ConsoleSqlOutlined,
+  LogoutOutlined,
+  MenuOutlined,
+  SettingOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { Button, Drawer, Menu, PageHeader, Input } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,10 +48,14 @@ const Header = () => {
         onClose={onClose}
         visible={visible}>
         <Menu mode="inline" style={{ width: "100%" }}>
-          <Menu.Item onClick={handleUpload}>Upload Post</Menu.Item>
-          <Menu.Item>Manage</Menu.Item>
-          <Menu.Item>Setting</Menu.Item>
-          <Menu.Item onClick={handleLogout}>Logout</Menu.Item>
+          <Menu.Item onClick={handleUpload} icon={<UploadOutlined />}>
+            Upload Post
+          </Menu.Item>
+          <Menu.Item icon={<ConsoleSqlOutlined />}>Manage</Menu.Item>
+          <Menu.Item icon={<SettingOutlined />}>Setting</Menu.Item>
+          <Menu.Item icon={<LogoutOutlined />} onClick={handleLogout}>
+            Logout
+          </Menu.Item>
         </Menu>
       </Drawer>
       <PageHeader
