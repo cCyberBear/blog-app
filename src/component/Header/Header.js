@@ -9,6 +9,7 @@ import { Button, Drawer, Menu, PageHeader, Input } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setSearch } from "../../action/postAction";
 import { logOut } from "../../action/userActions";
 import AvatarByName from "../AvatarByName/AvatarByName";
 import "./Header.scss";
@@ -34,7 +35,9 @@ const Header = () => {
     onClose();
     dispatch(logOut(navigate));
   };
-  const onSearch = (value) => console.log(value);
+  const onSearch = (value) => {
+    dispatch(setSearch(value));
+  };
   return (
     <div className="Header">
       <Drawer

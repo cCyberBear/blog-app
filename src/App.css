@@ -3,3 +3,13 @@
   min-height: 100vh;
   background-image: url("./assets/img/rain-grey.png");
 }
+.mg0 {
+  margin: 0;
+}
+.cl-first {
+  color: #1890ff;
+}
+.cl-second {
+  color: #d9d9d9;
+  font-size: 15px;
+}

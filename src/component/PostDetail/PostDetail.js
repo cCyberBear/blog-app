@@ -1,9 +1,24 @@
 import { CommentOutlined, LikeOutlined } from "@ant-design/icons";
-import { Avatar, Button, Comment, Form, List, Input, Card } from "antd";
-import React, { useState } from "react";
+import {
+  Avatar,
+  Button,
+  Comment,
+  Form,
+  List,
+  Input,
+  Card,
+  Skeleton,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import "./PostDetail.scss";
 import { Carousel } from "antd";
 import Header from "../Header/Header";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentPost } from "../../action/postAction";
+import AvatarByName from "../AvatarByName/AvatarByName";
+import parseISOString from "../../assets/format/time";
+
 const { Meta } = Card;
 const contentStyle = {
   height: "560px",
@@ -40,6 +55,16 @@ const PostDetail = ({}) => {
   const [comments, setComments] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState("");
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const currentPost = useSelector((state) => state.postReducer.currentPost);
+  const currentUser = useSelector((state) => state.userReducer.currentUser);
+  const loading = useSelector((state) => state.postReducer.loading);
+
+  useEffect(() => {
+    dispatch(setCurrentPost(id));
+  }, []);
+
   const handleSubmit = () => {
     if (!value) return;
     setSubmitting(true);
@@ -49,8 +74,8 @@ const PostDetail = ({}) => {
       setComments([
         ...comments,
         {
-          author: "Han Solo",
-          avatar: "https://joeschmoe.io/api/v1/random",
+          author: currentUser.username,
+          avatar: <AvatarByName name={currentUser.username} />,
           content: <p>{value}</p>,
         },
       ]);
@@ -69,18 +94,11 @@ const PostDetail = ({}) => {
           style={{ width: "100%", marginTop: "100px" }}
           cover={
             <Carousel>
-              <div>
-                <h3 style={contentStyle}>1</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>2</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>3</h3>
-              </div>
-              <div>
-                <h3 style={contentStyle}>4</h3>
-              </div>
+              {currentPost.image.map((val) => (
+                <div className="img">
+                  <img key={val} src={val} alt="postImage" />
+                </div>
+              ))}
             </Carousel>
           }>
           <div className="comment">
@@ -94,26 +112,30 @@ const PostDetail = ({}) => {
                 <p>{20}</p>
               </div>
             </div>
-            <Meta
-              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-              title="Card title"
-              description={
-                <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Laboriosam, natus, saepe ad atque, reprehenderit hic libero
-                  beatae tempora dolorum impedit illum! Vel, tempora vero?
-                  Doloribus vero accusantium quibusdam harum cumque?
-                </p>
-              }
-            />
+            {!currentPost ? (
+              <Skeleton avatar paragraph={{ rows: 4 }} />
+            ) : (
+              <Meta
+                avatar={<AvatarByName name={currentPost.author.username} />}
+                title={
+                  <>
+                    <p className="mg0">
+                      {currentPost.author.username.toUpperCase()}
+                    </p>
+                    <p className="cl-second">
+                      {parseISOString(currentPost?.createdAt)}
+                    </p>
+                    <p className="mg0 cl-first">
+                      {currentPost?.title.toUpperCase()}
+                    </p>
+                  </>
+                }
+                description={<p>{currentPost?.description}</p>}
+              />
+            )}
             {comments.length > 0 && <CommentList comments={comments} />}
             <Comment
-              avatar={
-                <Avatar
-                  src="https://joeschmoe.io/api/v1/random"
-                  alt="Han Solo"
-                />
-              }
+              avatar={<AvatarByName name={currentUser.username} />}
               content={
                 <Editor
                   onChange={handleChange}

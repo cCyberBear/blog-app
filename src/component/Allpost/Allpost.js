@@ -6,15 +6,17 @@ import "./Allpost.scss";
 const Allpost = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.postReducer.posts);
+  const searchList = useSelector((state) => state.postReducer.searchList);
+
   useEffect(() => {
     dispatch(getPost());
   }, []);
 
   return (
     <div className="Allpost">
-      {posts.map((val) => (
-        <Apost value={val} />
-      ))}
+      {!searchList.length
+        ? posts.map((val) => <Apost value={val} />)
+        : searchList.map((val) => <Apost value={val} />)}
     </div>
   );
 };

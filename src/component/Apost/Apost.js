@@ -12,6 +12,7 @@ import {
 import PostDetail from "../PostDetail/PostDetail";
 import { useNavigate } from "react-router-dom";
 import AvatarByName from "../AvatarByName/AvatarByName";
+import parseISOString from "../../assets/format/time";
 
 const { Meta } = Card;
 const Apost = ({ value }) => {
@@ -38,19 +39,20 @@ const Apost = ({ value }) => {
             <LikeOutlined key="like" />
             <p>{20}</p>
           </div>,
-          <div className="like">
-            <CommentOutlined key="comment" />
-            <p>{20}</p>
-          </div>,
           <FullscreenOutlined
             key="view all"
-            onClick={() => navigate("/post/:id")}
+            onClick={() => navigate(`/post/${value._id}`)}
           />,
-        ]}
-      >
+        ]}>
         <Meta
           avatar={<AvatarByName name={value.author.username} />}
-          title={value.author.username}
+          title={
+            <>
+              <p className="mg0">{value.author.username.toUpperCase()}</p>
+              <p className="cl-second">{parseISOString(value?.createdAt)}</p>
+              <p className="mg0 cl-first">{value?.title.toUpperCase()}</p>
+            </>
+          }
           description={<div className="content">{value.description}</div>}
         />
       </Card>
