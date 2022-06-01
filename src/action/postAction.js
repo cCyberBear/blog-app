@@ -42,7 +42,6 @@ const post = (data) => async (dispatch) => {
       "https://blogg-post-app.herokuapp.com/kd/api/v0/post/uploadpost",
       formdata
     );
-    dispatch(setLoading(SET_LOADING_POST, false));
     notification.success({
       message: "Post success",
     });
@@ -51,8 +50,9 @@ const post = (data) => async (dispatch) => {
     notification.error({
       message: "Post fail",
     });
-    dispatch(setLoading(SET_LOADING, false));
   }
+  dispatch(getPost());
+  dispatch(setLoading(SET_LOADING_POST, false));
 };
 const setCurrentPost = (id) => async (dispatch) => {
   dispatch(setLoading(SET_LOADING_2, true));

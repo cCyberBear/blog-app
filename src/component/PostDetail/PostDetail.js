@@ -83,7 +83,6 @@ const PostDetail = () => {
         },
       ]);
     }, 1000);
-    console.log(comments);
   };
 
   const handleChange = (e) => {

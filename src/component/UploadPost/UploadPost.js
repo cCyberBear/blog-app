@@ -2,9 +2,9 @@ import { Button, Card, Form, Input, Upload } from "antd";
 import React, { useState } from "react";
 import "./UploadPost.scss";
 import Header from "../Header/Header";
-import ImgCrop from "antd-img-crop";
 import { useDispatch, useSelector } from "react-redux";
 import { post } from "../../action/postAction";
+import Loadingg from "../Loadingg/Loadingg";
 
 const UploadPost = () => {
   const [selectedFileList, setSelectedFileList] = useState([]);
@@ -50,7 +50,7 @@ const UploadPost = () => {
     <div className="UploadPost">
       <Header />
       {loading ? (
-        <h1>Loading...</h1>
+        <Loadingg />
       ) : (
         <div className="container">
           <Card style={{ width: "100%", marginTop: "100px" }}>
