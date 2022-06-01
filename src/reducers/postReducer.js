@@ -1,5 +1,7 @@
 import {
+  SET_CURRENT_COMMENT,
   SET_CURRENT_POST,
+  SET_LOADING_2,
   SET_LOADING_POST,
   SET_POSTS,
   SET_SEARCH_LIST,
@@ -10,6 +12,8 @@ const initialState = {
   loading: false,
   currentPost: null,
   searchList: [],
+  loading_2: false,
+  comments: [],
 };
 
 const postReducer = (state = initialState, action) => {
@@ -24,10 +28,20 @@ const postReducer = (state = initialState, action) => {
         ...state,
         loading: action.payload,
       };
+    case SET_LOADING_2:
+      return {
+        ...state,
+        loading_2: action.payload,
+      };
     case SET_CURRENT_POST:
       return {
         ...state,
-        currentPost: state.posts.filter((val) => val._id === action.payload)[0],
+        currentPost: action.payload,
+      };
+    case SET_CURRENT_COMMENT:
+      return {
+        ...state,
+        comments: action.payload,
       };
     case SET_SEARCH_LIST:
       const newList = state.posts.filter((val) => {

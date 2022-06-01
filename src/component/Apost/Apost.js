@@ -1,15 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Apost.scss";
-import { Card, Avatar, Carousel } from "antd";
-import {
-  CommentOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  FullscreenOutlined,
-  LikeOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-import PostDetail from "../PostDetail/PostDetail";
+import { Card, Carousel } from "antd";
+import { FullscreenOutlined, LikeOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import AvatarByName from "../AvatarByName/AvatarByName";
 import parseISOString from "../../assets/format/time";
@@ -43,7 +35,8 @@ const Apost = ({ value }) => {
             key="view all"
             onClick={() => navigate(`/post/${value._id}`)}
           />,
-        ]}>
+        ]}
+      >
         <Meta
           avatar={<AvatarByName name={value.author.username} />}
           title={

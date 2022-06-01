@@ -56,7 +56,9 @@ const getCurrentUser = (token, navigate) => async (dispatch) => {
     });
     setAuthToken(false);
   }
-  dispatch({ type: AUTHING, payload: false });
+  setTimeout(() => {
+    dispatch({ type: AUTHING, payload: false });
+  }, 3000);
 };
 
 const logOut = (navigate) => (dispatch) => {

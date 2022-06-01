@@ -11,6 +11,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "./action/userActions";
 import { useEffect } from "react";
+import Loadingg from "./component/Loadingg/Loadingg";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,9 +27,8 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            authing ? <h1>authing</h1> : !currentUser ? <Login /> : <Main />
-          }></Route>
+          element={authing ? <Loadingg /> : !currentUser ? <Login /> : <Main />}
+        ></Route>
         <Route path="/main" element={<Main />}></Route>
         <Route path="/register" element={<Register />}></Route>
 
@@ -38,14 +38,16 @@ function App() {
             <PrivateRoute>
               <UploadPost />
             </PrivateRoute>
-          }></Route>
+          }
+        ></Route>
         <Route
           path="/post/:id"
           element={
             <PrivateRoute>
               <PostDetail />
             </PrivateRoute>
-          }></Route>
+          }
+        ></Route>
       </Routes>
     </div>
   );

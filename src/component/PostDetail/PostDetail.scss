@@ -10,6 +10,19 @@
       max-height: 80vh;
     }
   }
+  .ant-carousel{
+    button{
+      background: #333 !important;
+      height: 7px !important;
+    }
+  }
+   .ant-skeleton-image{
+    width: 100% !important;
+    height: 80vh !important;
+  }
+  .ant-skeleton{
+    width: 100% !important;
+  }
 }
 
 .flex-scope {

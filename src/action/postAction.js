@@ -1,8 +1,12 @@
 import { notification } from "antd";
 import axios from "axios";
+import parseISOString from "../assets/format/time";
+import AvatarByName from "../component/AvatarByName/AvatarByName";
 import {
+  SET_CURRENT_COMMENT,
   SET_CURRENT_POST,
   SET_LOADING,
+  SET_LOADING_2,
   SET_LOADING_POST,
   SET_POSTS,
   SET_SEARCH_LIST,
@@ -34,7 +38,7 @@ const post = (data) => async (dispatch) => {
     }
     formdata.append("title", data.title);
     formdata.append("description", data.description);
-    const res = await axios.post(
+    await axios.post(
       "https://blogg-post-app.herokuapp.com/kd/api/v0/post/uploadpost",
       formdata
     );
@@ -50,9 +54,48 @@ const post = (data) => async (dispatch) => {
     dispatch(setLoading(SET_LOADING, false));
   }
 };
-const setCurrentPost = (id) => (dispatch) => {
+const setCurrentPost = (id) => async (dispatch) => {
+  dispatch(setLoading(SET_LOADING_2, true));
+  try {
+    const res = await axios.get(
+      `https://blogg-post-app.herokuapp.com/kd/api/v0/post/getpost/${id}`
+    );
+    dispatch({ type: SET_CURRENT_POST, payload: res.data.post });
+  } catch (error) {
+    notification.error("Get post fail");
+  }
+  dispatch(setLoading(SET_LOADING_2, false));
+};
+const getComments = (id) => async (dispatch) => {
   dispatch(setLoading(SET_LOADING_POST, true));
-  dispatch({ type: SET_CURRENT_POST, payload: id });
+  try {
+    const res = await axios.get(
+      `https://blogg-post-app.herokuapp.com/kd/api/v0/comment/get-comment/${id}`
+    );
+    const newCommentList = res.data.map((val) => {
+      return {
+        author: val.userId.username,
+        datetime: parseISOString(val.createdAt),
+        content: <p>{val.comment}</p>,
+        avatar: <AvatarByName name={val.userId.username} />,
+      };
+    });
+    dispatch({ type: SET_CURRENT_COMMENT, payload: newCommentList });
+  } catch (error) {
+    notification.error("Get comment fail");
+  }
+  dispatch(setLoading(SET_LOADING_POST, false));
+};
+const sendComment = (data) => async (dispatch) => {
+  dispatch(setLoading(SET_LOADING_POST, true));
+  try {
+    await axios.post(
+      `https://blogg-post-app.herokuapp.com/kd/api/v0/comment/send-comment/`,
+      data
+    );
+  } catch (error) {
+    notification.error("Get comment fail");
+  }
   dispatch(setLoading(SET_LOADING_POST, false));
 };
 const setSearch = (keySearch) => (dispatch) => {
@@ -60,4 +103,4 @@ const setSearch = (keySearch) => (dispatch) => {
   dispatch({ type: SET_SEARCH_LIST, payload: keySearch });
   dispatch(setLoading(SET_LOADING_POST, false));
 };
-export { getPost, post, setCurrentPost, setSearch };
+export { getPost, post, setCurrentPost, setSearch, getComments, sendComment };

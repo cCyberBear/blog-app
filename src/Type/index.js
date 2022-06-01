@@ -2,6 +2,9 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const SET_LOADING = "SET_LOADING";
 export const SET_POSTS = "SET_POSTS";
 export const SET_LOADING_POST = "SET_LOADING_POST";
+export const SET_CURRENT_COMMENT = "SET_CURRENT_COMMENT";
+
+export const SET_LOADING_2 = "SET_LOADING_2";
 export const SET_CURRENT_POST = "SET_CURRENT_POST";
 export const SET_SEARCH_LIST = "SET_SEARCH_LIST";
 

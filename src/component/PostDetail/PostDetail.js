@@ -1,32 +1,21 @@
 import { CommentOutlined, LikeOutlined } from "@ant-design/icons";
-import {
-  Avatar,
-  Button,
-  Comment,
-  Form,
-  List,
-  Input,
-  Card,
-  Skeleton,
-} from "antd";
+import moment from "moment";
+import { Button, Comment, Form, List, Input, Card, Skeleton } from "antd";
 import React, { useEffect, useState } from "react";
 import "./PostDetail.scss";
 import { Carousel } from "antd";
 import Header from "../Header/Header";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPost } from "../../action/postAction";
+import {
+  getComments,
+  sendComment,
+  setCurrentPost,
+} from "../../action/postAction";
 import AvatarByName from "../AvatarByName/AvatarByName";
 import parseISOString from "../../assets/format/time";
 
 const { Meta } = Card;
-const contentStyle = {
-  height: "560px",
-  color: "#fff",
-  lineHeight: "160px",
-  textAlign: "center",
-  background: "#364d79",
-};
 const { TextArea } = Input;
 const CommentList = ({ style, comments }) => (
   <List
@@ -45,29 +34,42 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
         htmlType="submit"
         loading={submitting}
         onClick={onSubmit}
-        type="primary">
+        type="primary"
+      >
         Add Comment
       </Button>
     </Form.Item>
   </>
 );
-const PostDetail = ({}) => {
+const PostDetail = () => {
+  const { id } = useParams();
+  const currentPost = useSelector((state) => state.postReducer.currentPost);
+  const currentUser = useSelector((state) => state.userReducer.currentUser);
+  const commentsNew = useSelector((state) => state.postReducer.comments);
   const [comments, setComments] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
-  const { id } = useParams();
-  const currentPost = useSelector((state) => state.postReducer.currentPost);
-  const currentUser = useSelector((state) => state.userReducer.currentUser);
-  const loading = useSelector((state) => state.postReducer.loading);
+
+  const loading_2 = useSelector((state) => state.postReducer.loading_2);
 
   useEffect(() => {
     dispatch(setCurrentPost(id));
+    dispatch(getComments(id));
   }, []);
-
+  useEffect(() => {
+    setComments(commentsNew);
+  }, [commentsNew]);
   const handleSubmit = () => {
     if (!value) return;
     setSubmitting(true);
+    dispatch(
+      sendComment({
+        postId: id,
+        comment: value,
+        userId: currentUser._id,
+      })
+    );
     setTimeout(() => {
       setSubmitting(false);
       setValue("");
@@ -77,9 +79,11 @@ const PostDetail = ({}) => {
           author: currentUser.username,
           avatar: <AvatarByName name={currentUser.username} />,
           content: <p>{value}</p>,
+          datetime: moment().fromNow(),
         },
       ]);
     }, 1000);
+    console.log(comments);
   };
 
   const handleChange = (e) => {
@@ -93,14 +97,21 @@ const PostDetail = ({}) => {
         <Card
           style={{ width: "100%", marginTop: "100px" }}
           cover={
-            <Carousel>
-              {currentPost.image.map((val) => (
-                <div className="img">
-                  <img key={val} src={val} alt="postImage" />
-                </div>
-              ))}
-            </Carousel>
-          }>
+            loading_2 ? (
+              <Skeleton.Image />
+            ) : (
+              <Carousel>
+                {currentPost
+                  ? currentPost.image.map((val) => (
+                      <div className="img">
+                        <img key={val} src={val} alt="postImage" />
+                      </div>
+                    ))
+                  : ""}
+              </Carousel>
+            )
+          }
+        >
           <div className="comment">
             <div className="flex-scope">
               <div className="flex-scope">
@@ -112,25 +123,34 @@ const PostDetail = ({}) => {
                 <p>{20}</p>
               </div>
             </div>
-            {!currentPost ? (
-              <Skeleton avatar paragraph={{ rows: 4 }} />
+            {loading_2 ? (
+              <Skeleton active avatar paragraph={{ rows: 4 }} />
             ) : (
+              // <h1>cc</h1>
               <Meta
-                avatar={<AvatarByName name={currentPost.author.username} />}
+                avatar={
+                  <AvatarByName
+                    name={currentPost ? currentPost.author.username : "hihi"}
+                  />
+                }
                 title={
                   <>
                     <p className="mg0">
-                      {currentPost.author.username.toUpperCase()}
+                      {currentPost
+                        ? currentPost.author.username.toUpperCase()
+                        : ""}
                     </p>
                     <p className="cl-second">
-                      {parseISOString(currentPost?.createdAt)}
+                      {currentPost ? parseISOString(currentPost.createdAt) : ""}
                     </p>
                     <p className="mg0 cl-first">
-                      {currentPost?.title.toUpperCase()}
+                      {currentPost ? currentPost.title.toUpperCase() : ""}
                     </p>
                   </>
                 }
-                description={<p>{currentPost?.description}</p>}
+                description={
+                  <p>{currentPost ? currentPost.description : ""}</p>
+                }
               />
             )}
             {comments.length > 0 && <CommentList comments={comments} />}
